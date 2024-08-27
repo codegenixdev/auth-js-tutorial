@@ -1,11 +1,37 @@
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
 
+import authConfig from "@/lib/auth.config";
 import prisma from "@/lib/db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import authConfig from "@/lib/auth.config";
+
+declare module "next-auth" {
+  interface User {
+    givenName?: string | null;
+    preferLanguage?: string | null;
+  }
+}
+
+declare module "@auth/core/adapters" {
+  interface AdapterUser {
+    givenName: string | null;
+    preferLanguage: string | null;
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
+
+  callbacks: {
+    session({ session, token, user }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          address: user.email,
+        },
+      };
+    },
+  },
   ...authConfig,
 });
