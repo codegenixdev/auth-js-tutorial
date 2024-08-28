@@ -7,6 +7,10 @@ export default async function Page() {
 
   return (
     <div>
+      {session.user?.name}
+      {session.user?.email}
+      {session.user?.image}
+      {session.user?.givenName}
       <pre>{JSON.stringify(session, null, 2)}</pre>
     </div>
   );

@@ -1,9 +1,5 @@
 import SignIn from "@/components/sign-in";
 
-export default function Home() {
-  return (
-    <div>
-      <SignIn />
-    </div>
-  );
+export default function Page() {
+  return <SignIn />;
 }

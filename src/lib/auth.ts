@@ -23,12 +23,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
 
   callbacks: {
-    session({ session, token, user }) {
+    session({ session }) {
       return {
         ...session,
         user: {
           ...session.user,
-          address: user.email,
         },
       };
     },
